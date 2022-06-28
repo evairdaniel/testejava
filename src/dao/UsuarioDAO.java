@@ -9,14 +9,14 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Evair Daniel
  */
 public class UsuarioDAO {
-
-    public boolean checkLogin(String usuario, String senha) {
+ public boolean checkLogin(String usuario, String senha) {
 
         Connection con = ConnectionDados.getConnection();
         PreparedStatement stmt = null;
@@ -42,4 +42,28 @@ public class UsuarioDAO {
         return check;
 
     }
+  public boolean create() {
+      
+     Connection con = ConnectionDados.getConnection();
+        PreparedStatement stmt = null;
+        boolean create = false;
+        try {
+            stmt = con.prepareStatement("INSERT IGNORE INTO estacionamento.tbl_usuario(id, nome, usuario, senha) VALUES (1,?, ?, ?)");
+            stmt.setString(1, "admin");
+            stmt.setString(2, "admin");
+            stmt.setString(3, "123456");
+
+            stmt.executeUpdate();
+            create = true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao Salvar " + ex);
+        } finally {
+            ConnectionDados.closeConnection(con, stmt);
+        }
+       
+    
+        
+       return create;
+   
+}
 }

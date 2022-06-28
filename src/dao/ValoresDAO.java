@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -50,4 +51,27 @@ public class ValoresDAO {
         }
         return listaval;
     }
+     public boolean create() {
+      
+     Connection con = ConnectionDados.getConnection();
+        PreparedStatement stmt = null;
+        boolean create = false;
+        try {
+            stmt = con.prepareStatement("INSERT IGNORE INTO tbl_valor(id, valor_primeira_hora, valor_demais_horas) VALUES (1, ?, ?)");
+            stmt.setFloat(1, 6f);
+            stmt.setFloat(2, 4f);
+
+            stmt.executeUpdate();
+            create = true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao Salvar " + ex);
+        } finally {
+            ConnectionDados.closeConnection(con, stmt);
+        }
+       
+    
+        
+       return create;
+   
+}
 }
